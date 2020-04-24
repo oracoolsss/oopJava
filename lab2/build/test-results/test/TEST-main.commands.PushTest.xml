@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="main.commands.PushTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-04-24T12:15:08" hostname="DESKTOP-IIJQDU5" time="0.053">
+  <properties/>
+  <testcase name="successExecute()" classname="main.commands.PushTest" time="0.053"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[апр. 24, 2020 7:15:08 PM main.commands.Push execute
+INFO: New element pushed: 34
+]]></system-err>
+</testsuite>
