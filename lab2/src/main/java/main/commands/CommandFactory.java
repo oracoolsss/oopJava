@@ -1,8 +1,7 @@
 package main.commands;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -10,11 +9,11 @@ import static java.util.logging.Logger.getLogger;
 
 public class CommandFactory {
     private Properties factoryProperties = new Properties();
-    Logger logger = getLogger("Logger");
+    private Logger logger = getLogger("CommandFactory");
 
     private static volatile CommandFactory instance;
 
-    public static CommandFactory getInstance() {
+    public static CommandFactory getInstance() throws IOException {
         if (instance == null)
             synchronized (CommandFactory.class)
             {
@@ -25,12 +24,9 @@ public class CommandFactory {
         return instance;
     }
 
-    private CommandFactory() {
-        try {
-            factoryProperties.load(new FileReader(new File("./src/main/resources/config.properties")));
-        } catch (IOException e) {
-            System.out.println("oops... config.properties was deleted(\n" + e.getLocalizedMessage());
-        }
+    private CommandFactory() throws NullPointerException, IOException {
+            InputStream is = getClass().getResourceAsStream("/config.properties");
+            factoryProperties.load(is);
     }
 
 
@@ -41,6 +37,7 @@ public class CommandFactory {
             logger.info("Operation " + operationName + " was created successfully");
         }
         catch (Exception e) {
+            logger.info("Exception: problems with command creating");
             e.printStackTrace();
             return null;
         }

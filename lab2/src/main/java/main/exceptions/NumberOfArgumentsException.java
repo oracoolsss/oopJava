@@ -1,15 +1,11 @@
 package main.exceptions;
 
 public class NumberOfArgumentsException extends ArgumentsException {
-    private String message;
-
-
-    public NumberOfArgumentsException(String message) {
-        this.message = message;
+    public NumberOfArgumentsException() {
+        super("wrong number of arguments");
     }
 
-    @Override
-    public String getLocalizedMessage() {
-        return message;
+    public NumberOfArgumentsException(String message) {
+        super(message);
     }
 }

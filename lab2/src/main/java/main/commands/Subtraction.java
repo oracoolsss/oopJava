@@ -10,37 +10,34 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Subtraction implements Command{
-    static Logger logger = getLogger("Logger");
+    private static Logger logger = getLogger("Subtraction");
 
     @Override
     public void execute(Data data,String str) throws NumberOfOperandsException, ArgumentsException {
         if(str != null) {
-            if(str.split(" ").length != 0)
+            if(str.split(" ").length != 0) {
+                logger.info("NumberOfArgumentsException: Too many arguments in -");
                 throw new NumberOfArgumentsException("Too many arguments in -");
+            }
         }
 
-        if(data.getOperands().size() < 2) throw new NumberOfOperandsException("Not enough operands in stack for command -");
-
-        int lastInd = data.getOperands().size() - 1;
-
-        String strArg1 = data.getOperands().get(lastInd);
-        String strArg2 = data.getOperands().get(lastInd - 1);
-
-        data.getOperands().remove(lastInd);
-        data.getOperands().remove(lastInd - 1);
+        if(data.getOperands().size() < 2) {
+            logger.info("NumberOfOperandsException: Not enough operands in stack for command -");
+            throw new NumberOfOperandsException("Not enough operands in stack for command -");
+        }
 
         Double arg1;
         Double arg2;
-
         try {
-            arg1 = data.getVars().containsKey(strArg1) ? data.getVars().get(strArg1) : Double.valueOf(strArg1);
-            arg2 = data.getVars().containsKey(strArg2) ? data.getVars().get(strArg2) : Double.valueOf(strArg2);
+            arg1 = data.popValue();
+            arg2 = data.popValue();
         } catch (Exception e) {
+            logger.info("ArgumentsException: Stack contains incorrect arguments for -");
             throw new ArgumentsException("Stack contains incorrect arguments for -");
         }
 
         double result = arg2 - arg1;
-        data.getOperands().add(String.valueOf(result));
+        data.getOperands().add(result);
         logger.info("Subtractions's pushed result: " + result);
     }
 }

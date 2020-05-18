@@ -4,16 +4,17 @@ import main.Data;
 import main.exceptions.ArgumentsException;
 import main.exceptions.NumberOfArgumentsException;
 import main.exceptions.NumberOfOperandsException;
+import main.exceptions.CalculatorException;
 
 import java.util.logging.Logger;
 
 import static java.util.logging.Logger.getLogger;
 
 public class Addition implements Command {
-    static Logger logger = getLogger("Logger");
+    private static Logger logger = getLogger("Addition");
 
     @Override
-    public void execute(Data data, String str) throws NumberOfOperandsException, ArgumentsException {
+    public void execute(Data data, String str) throws CalculatorException {
         if(str != null) {
             if(str.split(" ").length != 0)
             throw new NumberOfArgumentsException("Too many arguments in +");
@@ -21,25 +22,18 @@ public class Addition implements Command {
 
         if(data.getOperands().size() < 2) throw new NumberOfOperandsException("Not enough operands in stack for command +");
 
-        int lastInd = data.getOperands().size() - 1;
-
-        String strArg1 = data.getOperands().get(lastInd);
-        String strArg2 = data.getOperands().get(lastInd - 1);
-
-        data.getOperands().remove(lastInd);
-        data.getOperands().remove(lastInd - 1);
-
         Double arg1;
         Double arg2;
         try {
-            arg1 = data.getVars().containsKey(strArg1) ? data.getVars().get(strArg1) : Double.valueOf(strArg1);
-            arg2 = data.getVars().containsKey(strArg2) ? data.getVars().get(strArg2) : Double.valueOf(strArg2);
+            arg1 = data.popValue();
+            arg2 = data.popValue();
         } catch (Exception e) {
+            logger.info("ArgumentsException: Stack contains incorrect arguments for +");
             throw new ArgumentsException("Stack contains incorrect arguments for +");
         }
 
         double result = arg1 + arg2;
-        data.getOperands().add(String.valueOf(result));
+        data.getOperands().add(result);
         logger.info("Addition's pushed result: " + result);
     }
 }

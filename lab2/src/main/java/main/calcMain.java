@@ -1,24 +1,36 @@
 package main;
 
 import main.exceptions.ArgumentsException;
+import main.exceptions.CalculatorException;
 import main.exceptions.DivisionByZeroException;
 import main.exceptions.NumberOfOperandsException;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.logging.Logger;
 
 import static java.util.logging.Logger.getLogger;
 
 public class calcMain {
-    public static void main(String[] args) throws NumberOfOperandsException, ArgumentsException, IOException, DivisionByZeroException {
-        Logger logger = getLogger("Logger");
+    public static void main(String[] args) throws IOException, CalculatorException {
+        Logger logger = getLogger("calcMain");
         Calculator calculator;
         logger.info("Logging started");
-        try {
-            calculator = new Calculator(args[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            calculator = new Calculator("");
+        InputStream is;
+        if(args.length > 0) {
+            try {
+                is = new FileInputStream(args[0]);
+                logger.info("Started work with file");
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found");
+                is = System.in;
+                logger.info("Started work with console");
+            }
         }
+        else {
+            is = System.in;
+            logger.info("Started work with console");
+        }
+        calculator = new Calculator(is);
 
         calculator.calculate();
     }

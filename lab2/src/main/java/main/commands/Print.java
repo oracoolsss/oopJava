@@ -9,13 +9,15 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Print implements Command{
-    static Logger logger = getLogger("Logger");
+    private static Logger logger = getLogger("Print");
 
     @Override
-    public void execute(Data data,String str) throws NumberOfOperandsException, NumberOfArgumentsException {
+    public void execute(Data data,String str) throws NumberOfArgumentsException {
         if(str != null) {
-            if(str.split(" ").length != 0)
+            if(str.split(" ").length != 0) {
+                logger.info("NumberOfArgumentsException: Too many arguments in PRINT");
                 throw new NumberOfArgumentsException("Too many arguments in PRINT");
+            }
         }
 
         System.out.println(data.getOperands().get(data.getOperands().size() - 1));

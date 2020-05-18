@@ -10,34 +10,37 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Sqrt implements Command {
-    static Logger logger = getLogger("Logger");
+    private static Logger logger = getLogger("Logger");
 
     @Override
     public void execute(Data data, String str) throws ArgumentsException, NumberOfOperandsException {
         if(str != null) {
-            if(str.split(" ").length != 0)
+            if(str.split(" ").length != 0) {
+                logger.info("NumberOfArgumentsException: Too many arguments in SQRT");
                 throw new NumberOfArgumentsException("Too many arguments in SQRT");
+            }
         }
 
-        if(data.getOperands().size() < 1) throw new NumberOfOperandsException("Not enough operands in stack for command SQRT");
-
-        int lastInd = data.getOperands().size() - 1;
-
-        String strArg1 = data.getOperands().get(lastInd);
-
-        data.getOperands().remove(lastInd);
+        if(data.getOperands().size() < 1) {
+            logger.info("NumberOfOperandsException: Not enough operands in stack for command SQRT");
+            throw new NumberOfOperandsException("Not enough operands in stack for command SQRT");
+        }
 
         Double arg;
         try {
-            arg = data.getVars().containsKey(strArg1) ? data.getVars().get(strArg1) : Double.valueOf(strArg1);
+            arg = data.popValue();
         } catch (Exception e) {
+            logger.info("ArgumentsException: Stack contains incorrect arguments for SQRT");
             throw new ArgumentsException("Stack contains incorrect arguments for SQRT");
         }
 
-        if(arg < 0.0) throw new ArgumentsException("Stack contains negative argument for SQRT");
+        if(arg < 0.0) {
+            logger.info("ArgumentsException: Stack contains negative arguments for SQRT");
+            throw new ArgumentsException("Stack contains negative argument for SQRT");
+        }
 
         double result = Math.sqrt(arg);
-        data.getOperands().add(String.valueOf(result));
+        data.getOperands().add(result);
         logger.info("SQRT's pushed result: " + result);
     }
 }

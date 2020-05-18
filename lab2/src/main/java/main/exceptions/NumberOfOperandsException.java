@@ -1,14 +1,11 @@
 package main.exceptions;
 
-public class NumberOfOperandsException extends Exception {
-    private String message;
-
-    public NumberOfOperandsException(String message) {
-        this.message = message;
+public class NumberOfOperandsException extends CalculatorException {
+    public NumberOfOperandsException() {
+        super("wrong number of operands");
     }
 
-    @Override
-    public String getLocalizedMessage() {
-        return message;
+    public NumberOfOperandsException(String message) {
+        super(message);
     }
 }

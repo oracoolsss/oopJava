@@ -1,10 +1,8 @@
 package main.commands;
 
 import main.Data;
-import main.exceptions.ArgumentsException;
-import main.exceptions.DivisionByZeroException;
-import main.exceptions.NumberOfOperandsException;
+import main.exceptions.CalculatorException;
 
 public interface Command {
-    public void execute(Data data, String args) throws NumberOfOperandsException, ArgumentsException, DivisionByZeroException;
+    public void execute(Data data, String args) throws CalculatorException;
 }

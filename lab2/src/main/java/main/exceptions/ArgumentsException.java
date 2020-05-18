@@ -1,17 +1,11 @@
 package main.exceptions;
 
-public class ArgumentsException extends Exception {
-    private String message;
+public class ArgumentsException extends CalculatorException {
     public ArgumentsException() {
-        message = "ArgumentsException";
+        super("ArgumentsException");
     }
 
     public ArgumentsException(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String getLocalizedMessage() {
-        return message;
+        super(message);
     }
 }

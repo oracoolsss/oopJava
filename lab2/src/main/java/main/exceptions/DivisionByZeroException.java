@@ -1,14 +1,11 @@
 package main.exceptions;
 
-public class DivisionByZeroException extends Exception {
-    private String message;
-
-    public DivisionByZeroException(String message) {
-        this.message = message;
+public class DivisionByZeroException extends CalculatorException {
+    public DivisionByZeroException() {
+        super("division by zero");
     }
 
-    @Override
-    public String getLocalizedMessage() {
-        return message;
+    public DivisionByZeroException(String message) {
+        super(message);
     }
 }
