@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Sqrt implements Command {
-    private static Logger logger = getLogger("Logger");
+    private static Logger logger = getLogger(Sqrt.class.getName());
 
     @Override
     public void execute(Data data, String str) throws ArgumentsException, NumberOfOperandsException {
@@ -21,7 +21,7 @@ public class Sqrt implements Command {
             }
         }
 
-        if(data.getOperands().size() < 1) {
+        if(data.valuesSize() < 1) {
             logger.info("NumberOfOperandsException: Not enough operands in stack for command SQRT");
             throw new NumberOfOperandsException("Not enough operands in stack for command SQRT");
         }
@@ -40,7 +40,8 @@ public class Sqrt implements Command {
         }
 
         double result = Math.sqrt(arg);
-        data.getOperands().add(result);
+        //data.getOperands().add(result);
+        data.pushValue(result);
         logger.info("SQRT's pushed result: " + result);
     }
 }

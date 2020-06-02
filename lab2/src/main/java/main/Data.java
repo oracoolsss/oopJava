@@ -12,8 +12,29 @@ public class Data {
         return vars;
     }
 
+    public void setVar(String name, Double value) {
+        vars.put(name, value);
+    }
+    public Double getVar(String name) {
+        return vars.get(name);
+    }
+    public boolean containsVar(String name) {
+        return vars.containsKey(name);
+    }
+
     public ArrayList<Double> getOperands() {
         return operands;
+    }
+    public void pushValue(Double value) {
+        operands.add(value);
+    }
+
+    public Double peekValue() {
+        return operands.get(valuesSize() - 1);
+    }
+
+    public int valuesSize() {
+        return operands.size();
     }
 
     public Double popValue() {

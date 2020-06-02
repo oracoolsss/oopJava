@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Define implements Command {
-    private static Logger logger = getLogger("Define");
+    private static Logger logger = getLogger(Define.class.getName());
 
     @Override
     public void execute(Data data, String str) throws ArgumentsException {
@@ -27,7 +27,8 @@ public class Define implements Command {
             logger.info("ArgumentsException: Incorrect argument for definition");
             throw new ArgumentsException("Incorrect argument for definition");
         }
-        data.getVars().put(args[0], constValue);
+        //data.getVars().put(args[0], constValue);
+        data.setVar(args[0], constValue);
         logger.info("New constant pushed: " + args[0] + " = " + constValue);
     }
 }

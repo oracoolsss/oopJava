@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Push implements Command {
-    private static Logger logger = getLogger("Push");
+    private static Logger logger = getLogger(Push.class.getName());
 
     @Override
     public void execute(Data data, String str) throws ArgumentsException {
@@ -31,12 +31,14 @@ public class Push implements Command {
         }
         Double newValue;
         try {
-            newValue = data.getVars().containsKey(args[0]) ? data.getVars().get(args[0]) : Double.valueOf(args[0]);
+            newValue = data.containsVar(args[0]) ? data.getVar(args[0]) : Double.valueOf(args[0]);
+            //newValue = data.getVars().containsKey(args[0]) ? data.getVars().get(args[0]) : Double.valueOf(args[0]);
         } catch (Exception e) {
             logger.info("ArgumentsException: Stack contains incorrect arguments for PUSH");
             throw new ArgumentsException("Stack contains incorrect arguments for PUSH");
         }
-        data.getOperands().add(newValue);
+        //data.getOperands().add(newValue);
+        data.pushValue(newValue);
         logger.info("New element pushed: " + args[0]);
     }
 }

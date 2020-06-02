@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Print implements Command{
-    private static Logger logger = getLogger("Print");
+    private static Logger logger = getLogger(Print.class.getName());
 
     @Override
     public void execute(Data data,String str) throws NumberOfArgumentsException {
@@ -20,7 +20,8 @@ public class Print implements Command{
             }
         }
 
-        System.out.println(data.getOperands().get(data.getOperands().size() - 1));
+        //System.out.println(data.getOperands().get(data.getOperands().size() - 1));
+        System.out.println(data.peekValue());
         logger.info("Printed value: " + data.getOperands().get(data.getOperands().size() - 1));
     }
 }

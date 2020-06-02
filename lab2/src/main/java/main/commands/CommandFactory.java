@@ -9,7 +9,7 @@ import static java.util.logging.Logger.getLogger;
 
 public class CommandFactory {
     private Properties factoryProperties = new Properties();
-    private Logger logger = getLogger("CommandFactory");
+    private Logger logger = getLogger(CommandFactory.class.getName());
 
     private static volatile CommandFactory instance;
 
@@ -24,8 +24,12 @@ public class CommandFactory {
         return instance;
     }
 
-    private CommandFactory() throws NullPointerException, IOException {
+    private CommandFactory() throws IOException {
             InputStream is = getClass().getResourceAsStream("/config.properties");
+            if(is == null) {
+                logger.info("Exception: config.properties not found");
+                throw new NullPointerException();
+            }
             factoryProperties.load(is);
     }
 
@@ -33,12 +37,11 @@ public class CommandFactory {
     public Command createCommand(String operationName) {
         Command command;
         try {
-            command = (Command) Class.forName("main.commands." + factoryProperties.getProperty(operationName)).getDeclaredConstructor().newInstance();
+            command = (Command) Class.forName(factoryProperties.getProperty(operationName)).getDeclaredConstructor().newInstance();
             logger.info("Operation " + operationName + " was created successfully");
         }
         catch (Exception e) {
             logger.info("Exception: problems with command creating");
-            e.printStackTrace();
             return null;
         }
 

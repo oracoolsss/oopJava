@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Addition implements Command {
-    private static Logger logger = getLogger("Addition");
+    private static Logger logger = getLogger(Addition.class.getName());
 
     @Override
     public void execute(Data data, String str) throws CalculatorException {
@@ -20,7 +20,7 @@ public class Addition implements Command {
             throw new NumberOfArgumentsException("Too many arguments in +");
         }
 
-        if(data.getOperands().size() < 2) throw new NumberOfOperandsException("Not enough operands in stack for command +");
+        if(data.valuesSize() < 2) throw new NumberOfOperandsException("Not enough operands in stack for command +");
 
         Double arg1;
         Double arg2;
@@ -33,7 +33,7 @@ public class Addition implements Command {
         }
 
         double result = arg1 + arg2;
-        data.getOperands().add(result);
+        data.pushValue(result);
         logger.info("Addition's pushed result: " + result);
     }
 }

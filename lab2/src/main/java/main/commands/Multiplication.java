@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Multiplication implements Command {
-    private static Logger logger = getLogger("Multiplication");
+    private static Logger logger = getLogger(Multiplication.class.getName());
 
     @Override
     public void execute(Data data, String str) throws NumberOfOperandsException, ArgumentsException {
@@ -22,7 +22,7 @@ public class Multiplication implements Command {
 
         }
 
-        if(data.getOperands().size() < 2) {
+        if(data.valuesSize() < 2) {
             logger.info("NumberOfOperandsException: Not enough operands in stack for command *");
             throw new NumberOfOperandsException("Not enough operands in stack for command *");
         }
@@ -38,7 +38,8 @@ public class Multiplication implements Command {
         }
 
         double result = arg1 * arg2;
-        data.getOperands().add(result);
+        //data.getOperands().add(result);
+        data.pushValue(result);
         logger.info("Multiplication's pushed result: " + result);
     }
 }

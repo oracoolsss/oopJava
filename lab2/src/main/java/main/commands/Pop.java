@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Pop implements Command {
-    private static Logger logger = getLogger("Pop");
+    private static Logger logger = getLogger(Pop.class.getName());
 
     @Override
     public void execute(Data data, String str) throws NumberOfArgumentsException {
@@ -20,8 +20,9 @@ public class Pop implements Command {
 
         }
 
-        if(data.getOperands().size() > 0) {
-            data.getOperands().remove(data.getOperands().size() - 1);
+        if(data.valuesSize() > 0) {
+            //data.getOperands().remove(data.getOperands().size() - 1);
+            data.popValue();
             logger.info("Last element of stack was popped");
         }
         else {

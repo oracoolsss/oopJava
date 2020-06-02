@@ -2,10 +2,7 @@ package main;
 
 import main.commands.Command;
 import main.commands.CommandFactory;
-import main.exceptions.ArgumentsException;
 import main.exceptions.CalculatorException;
-import main.exceptions.DivisionByZeroException;
-import main.exceptions.NumberOfOperandsException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +14,7 @@ import static java.util.logging.Logger.getLogger;
 public class Calculator {
     private Data data = new Data();
     private Scanner scanner;
-    private static Logger logger = getLogger("Calculator");
+    private static Logger logger = getLogger(Calculator.class.getName());
 
     public Calculator(InputStream inputStream) {
         scanner = new Scanner(inputStream);

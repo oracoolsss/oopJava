@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 public class Division implements Command{
-    private static Logger logger = getLogger("Division");
+    private static Logger logger = getLogger(Division.class.getName());
 
     @Override
     public void execute(Data data, String str) throws NumberOfOperandsException, ArgumentsException, DivisionByZeroException {
@@ -22,7 +22,7 @@ public class Division implements Command{
             }
         }
 
-        if(data.getOperands().size() < 2) {
+        if(data.valuesSize() < 2) {
             logger.info("NumberOfParamsException: Not enough operands in stack for command /");
             throw new NumberOfOperandsException("Not enough operands in stack for command /");
         }
@@ -43,7 +43,8 @@ public class Division implements Command{
         }
 
         double result = arg1 / arg2;
-        data.getOperands().add(result);
+        //data.getOperands().add(result);
+        data.pushValue(result);
         logger.info("Division's pushed result: " + result);
     }
 }

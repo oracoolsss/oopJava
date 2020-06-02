@@ -1,9 +1,6 @@
 package main;
 
-import main.exceptions.ArgumentsException;
 import main.exceptions.CalculatorException;
-import main.exceptions.DivisionByZeroException;
-import main.exceptions.NumberOfOperandsException;
 
 import java.io.*;
 import java.util.logging.Logger;
@@ -12,7 +9,7 @@ import static java.util.logging.Logger.getLogger;
 
 public class calcMain {
     public static void main(String[] args) throws IOException, CalculatorException {
-        Logger logger = getLogger("calcMain");
+        Logger logger = getLogger(calcMain.class.getName());
         Calculator calculator;
         logger.info("Logging started");
         InputStream is;
