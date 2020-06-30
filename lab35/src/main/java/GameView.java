@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static java.lang.Double.min;
 
-public class GameView {
+public class GameView implements Observer{
     private int width;
     private int height;
     private int partSize;
@@ -169,6 +169,21 @@ public class GameView {
             gc.setFont(new Font("", height * partSize / 20.0));
             gc.fillText(score.getValue().toString(), width * partSize + spaceForScoresWidth / 10.0, height * partSize / 20.0 * (temp + 1));
             temp += 2;
+        }
+    }
+
+    @Override
+    public void notification(String message) {
+        if (message.equals("start")) {
+            System.out.println("start");
+            this.primaryStage = gm.getStage();
+        }
+        else if (message.equals("draw")) {
+            System.out.println("draw");
+            this.draw();
+        }
+        else if (message.equals("data updated")) {
+            this.updateView(gm.isGameOver(), gm.getSnakes(), gm.getFoodX(), gm.getFoodY());
         }
     }
 }

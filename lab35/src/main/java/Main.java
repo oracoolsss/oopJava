@@ -11,11 +11,10 @@ public class Main extends Application {
         GameModel gm = new GameModel();
         SnakeController sc = new SnakeController();
         GameView gv = new GameView(gm.getWidth(), gm.getHeight(), gm.getPartSize(), gm.getSpaceForScoresWidth(), sc);
-        gm.setSnakeController(sc);
-        gm.setView(gv);
         sc.setModel(gm);
         sc.setView(gv);
         gv.setGameModel(gm);
+        gm.registerObserver(gv);
         gm.start(stage);
     }
 }

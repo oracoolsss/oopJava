@@ -8,12 +8,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.abs;
 
-public class GameModel  extends Application {
+public class GameModel extends Application implements Observable  {
+    private List<Observer> observers;
     private static final int MAXLENGTH = 13;
     private static int speed = 10;
     private static int width = 20;
@@ -25,14 +27,20 @@ public class GameModel  extends Application {
     private static boolean gameOver = false;
     private static Random rand = new Random();
     private final int MAXSCORECOUNT = 10;
+    private Stage stage;
 
     private boolean isRecordRecorded;
 
-    private SnakeController sc;
     private GameView gv;
 
-    private List<Snake> snakes = new ArrayList<>();
-    private List<Pair<String, Integer>> scores = new ArrayList<>();
+    private List<Snake> snakes;
+    private List<Pair<String, Integer>> scores;
+
+    public GameModel() {
+        observers = new LinkedList<>();
+        snakes = new ArrayList<>();
+        scores = new ArrayList<>();
+    }
 
     List<Snake> getSnakes() {
         return this.snakes;
@@ -41,9 +49,11 @@ public class GameModel  extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            stage = primaryStage;
+            notifyObservers("start");
             loadScores();
             newFood();
-            gv.setStage(primaryStage);
+            //gv.setStage(primaryStage);
 
             new AnimationTimer() {
                 long lastTick = 0;
@@ -66,8 +76,8 @@ public class GameModel  extends Application {
             //snakes generating
             generateSnakes();
             isRecordRecorded = false;
-
-            gv.draw();
+            notifyObservers("draw");
+            //gv.draw();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,7 +85,8 @@ public class GameModel  extends Application {
 
     public void tick() {
         if(gameOver) {
-            gv.updateView(gameOver, snakes, foodX, foodY);
+            notifyObservers("data updated");
+            //gv.updateView(gameOver, snakes, foodX, foodY);
             return;
         }
         for (Snake snake: snakes) {
@@ -108,8 +119,8 @@ public class GameModel  extends Application {
                 gameOver = true;
             }
         }
-
-        gv.updateView(gameOver, snakes, foodX, foodY);
+        notifyObservers("data updated");
+        //gv.updateView(gameOver, snakes, foodX, foodY);
     }
 
     public void newFood() {
@@ -131,9 +142,9 @@ public class GameModel  extends Application {
         }
     }
 
-    public void setSnakeController(SnakeController sc) {
-        this.sc = sc;
-    }
+    //public void setSnakeController(SnakeController sc) {
+    //    this.sc = sc;
+    //}
     public void setView(GameView gv) {
         this.gv = gv;
     }
@@ -243,5 +254,29 @@ public class GameModel  extends Application {
     }
     public void setRecordrecorded() {
         isRecordRecorded = true;
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.notification(message);
+        }
+    }
+
+    public int getFoodX() {
+        return foodX;
+    }
+
+    public int getFoodY() {
+        return foodY;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
